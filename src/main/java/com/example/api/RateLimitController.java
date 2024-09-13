@@ -1,6 +1,6 @@
 package com.example.api;
 
-import com.example.dto.MockDto;
+import com.example.model.dto.MockDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
