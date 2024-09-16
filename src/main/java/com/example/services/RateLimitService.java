@@ -17,9 +17,9 @@ public class RateLimitService {
 
     public boolean tryAcquire(String userId) {
         RRateLimiter rateLimiter = redissonClient.getRateLimiter(userId);
-        rateLimiter.trySetRate(RateType.OVERALL, 5, 5, RateIntervalUnit.MINUTES);
+        rateLimiter.trySetRate(RateType.PER_CLIENT, 5, 5, RateIntervalUnit.MINUTES);
         boolean acquired = rateLimiter.tryAcquire();
-        log.info("Rate limit check for user {}: {}. Available permits: {}",
+        log.warn("Rate limit check for user {}: {}. Available permits: {}",
                 userId, acquired ? "allowed" : "blocked", rateLimiter.availablePermits());
         return acquired;
     }
