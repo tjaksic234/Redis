@@ -17,6 +17,7 @@ public class RedissonConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
+    //? we can set the env variable to be empty using the ":" if the current profile does not use it
     @Value("${spring.data.redis.password:}")
     private String password;
 
