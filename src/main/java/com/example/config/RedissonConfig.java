@@ -6,6 +6,7 @@ import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class RedissonConfig {
@@ -16,8 +17,12 @@ public class RedissonConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
+    @Value("${spring.data.redis.password:}")
+    private String password;
+
     @Bean
-    public RedissonClient redissonClientConfig() {
+    @Profile("dev")
+    public RedissonClient redissonClientDev() {
         Config config = new Config();
         config.useSingleServer()
                 .setAddress("redis://" + host + ":" + port)
@@ -25,6 +30,16 @@ public class RedissonConfig {
                 .setConnectionMinimumIdleSize(24)
                 .setConnectTimeout(10000)
                 .setRetryAttempts(3);
+        return Redisson.create(config);
+    }
+
+    @Bean
+    @Profile("prod")
+    public RedissonClient redissonClientProd() {
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress("redis://" + host + ":" + port)
+                .setPassword(password);
         return Redisson.create(config);
     }
 }

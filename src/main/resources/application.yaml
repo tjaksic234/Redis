@@ -1,5 +1,26 @@
 spring:
+  config:
+    import: file:.env[.properties]
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+---
+# Development properties
+spring:
+  config:
+    activate:
+      on-profile: dev
   data:
     redis:
       host: localhost
       port: 6379
+---
+# Production properties
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    redis:
+      host: ${REDIS_URL}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
